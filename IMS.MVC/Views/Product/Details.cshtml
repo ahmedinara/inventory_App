@@ -1,0 +1,137 @@
+﻿@model IMS.Core.Entities.RfIdScannedProduct
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>التفاصيل</h1>
+
+<div>
+    <h4>الجرد</h4>
+    <hr />
+    <dl class="row">
+      
+        <dt class="col-sm-2">
+            أسم المستخدم
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CreatedByNavigation.FristName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CreatedOn)
+        </dt>
+        <dd class="col-sm-10">
+            @Model.CreatedOn.ToString("HH:mm tt MM-dd-yyyy")
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ItemsCount)
+        </dt>
+        <dd class="col-sm-10">
+            @Model.ItemScanneds.ToList().Count()
+        </dd>
+    </dl>
+    <table class="table table-striped table-bordered dt-responsive nowrap"  width="100%" id="table">
+        <thead style="background-color: #2E9E3A; ">
+            <tr>
+                <th>
+                    كود الصنف
+                </th>
+                <th>
+                    أسم الصنف
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ItemScanneds.ToList()[0].PhysicalStock)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ItemScanneds.ToList()[0].ScannedStock)
+                </th>
+
+                <th>
+                    حالة االصنف
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.ItemScanneds)
+            {
+                if (item.StatesId == 1)
+                {
+                    <tr style=" font-size: 18px; ">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProductVarientCodeNavigation.VarientCode)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProductVarientCodeNavigation.Product.TitleAr)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PhysicalStock)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ScannedStock)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.States.NameAr)
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    <tr style=" font-size: 18px; color: white; background-color:orangered" >
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProductVarientCodeNavigation.VarientCode)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProductVarientCodeNavigation.Product.TitleAr)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PhysicalStock)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ScannedStock)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.States.NameAr)
+                        </td>
+                    </tr>
+                }
+
+            }
+        </tbody>
+    </table>
+
+</div>
+<div>
+    @*@Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ })*@ 
+    <a asp-action="Counting" style="font-size:25px" class="btn btn-primary">العودة لقائمة الجرد</a>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#table').DataTable(
+            {
+                paginate: false,
+                
+                "language": {
+                    "search": "بحث:",
+                    "info": "مشاهدة _START_ الي _END_ من _TOTAL_ بيان ",
+                    "infoEmpty": "مشاهدة 0 الي 0 من  0 البيانات",
+                    "infoFiltered": "(تمت تصفيته من  _MAX_ اجمالي البيانات)",
+                    "infoPostFix": "",
+                    "lengthMenu": "مشاهدة _MENU_ بيان",
+                    "loadingRecords": "جاري التحميل...",
+                    "processing": "جاري المعالجة ....",
+                    "zeroRecords": "لم يتم العثور على بيانات مطابقة",
+                    "paginate": {
+                        "first": "الاول",
+                        "last": "الاخير",
+                        "next": "التالي",
+                        "previous": "السابق"
+                    }
+                }
+
+            });
+
+
+    });
+</script>

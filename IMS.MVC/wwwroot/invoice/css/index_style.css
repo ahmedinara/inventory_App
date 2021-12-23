@@ -1,0 +1,11 @@
+.heaer {
+    /* border-bottom: 1px solid rgb(161 159 159); */
+    /* background-color: rgb(115, 180, 158); */
+}
+.billData{
+    background-color: #c6d1cd;
+}
+p{
+    font-weight: bold;
+    line-height: 0.7;
+}

@@ -1,0 +1,17 @@
+﻿@model IMS.Core.Dtos.ItemScannedModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 style="color:green" >Successful Added</h1>
+
+<h4>@DateTime.Now</h4>
+<p>
+    <a asp-action="Create" class="btn btn-primary">ِAdd RFid Scanning</a>
+</p>
+<hr />
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

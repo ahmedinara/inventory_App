@@ -1,0 +1,150 @@
+﻿@model IMS.Core.Entities.DeviceRfid
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+
+<h4>Test Rfid</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" asp-action="DeviceConnect" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="DeviceName" class="control-label"></label>
+                <input id="DeviceName" asp-for="DeviceName" class="form-control" />
+                <span asp-validation-for="DeviceName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label>Ip Sample :(176.44.114.235:3402)</label>
+                <label asp-for="IpAddress" class="control-label"></label>
+                <input id="ip" asp-for="IpAddress" class="form-control" />
+                <span asp-validation-for="IpAddress" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Port" hidden class="control-label"></label>
+                <input id="Port" asp-for="Port" hidden class="form-control" />
+                <span asp-validation-for="Port" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <div class="row">
+                    <input type="button" id="Connect" onclick="ConnectDevice()" value="Connect" class="btn btn-primary" />
+                    <input type="button" id="Disconnect"  style="display:none" value="Disconnect" class="btn btn-danger" />
+                    <input type="button" id="read" style="display:none" value="Read Data" class="btn btn-add" />
+                </div>
+               
+            </div>
+        </form>
+        @*<table class="table table-striped table-bordered dt-responsive nowrap" width="100%" id="table">
+            <thead style="background-color: #33aa4e; ">
+                <tr>
+                    <th>
+                        كود الصنف
+                    </th>
+                    <th>
+                        الكميه
+                    </th>
+
+                    <th>
+                        كود الموقع
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="tableId">
+            </tbody>
+        </table>*@
+        
+        <div id="respondlabel" style="font-size:35px">
+        </div>
+    </div>
+</div>
+
+<div>
+    @*<a asp-action="Index">Back to List</a>*@
+</div>
+<script>
+        function ConnectDevice() {
+            var IpAddress = $('#ip').val();
+            var Port = $('#Port').val();
+            var DeviceName = $('#DeviceName').val();
+            var deviceRfid = {};
+            deviceRfid.IpAddress = IpAddress; deviceRfid.Port = null; deviceRfid.DeviceName = DeviceName; deviceRfid.Id = 0;
+            $.ajax({
+                url: "/RfidView/DeviceConnect",
+                async: false,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                type: "POST",
+                data: JSON.stringify(deviceRfid),
+                success: function (data) {
+                   
+                        //swal({
+                        //    title: 'ناجح',
+                        //    text: "تسجيل الاتصال",
+                        //    icon: "success",
+                        //    button: "تم",
+                        //});
+                    $('#respondlabel').html("<p style='font-size:35px'>" + data + "</p>");
+                        $("#Disconnect").css("display", "block");
+                        $("#Connect").css("display", "none");
+                        $("#read").css("display", "block");
+                   
+                },
+            });
+        }
+
+        //function DisConnectDevice() {
+        //    swal({
+        //        title: 'ناجح',
+        //        text: "تم غلق الاتصال",
+        //        icon: "success",
+        //        button: "تم",
+        //    });
+        //    $("#Disconnect").css("display", "none");
+        //    $("#Connect").css("display", "block");
+        //    $("#read").css("display", "none");
+        //}
+        function getlist() {
+
+            var tbl = $('#table tr:has(td)').map(function (i, v) {
+                var $td = $('td', this);
+                return {
+                    ProductCode: $td.eq(0).text(),
+                    ScannedStock: parseInt($td.eq(1).text()),
+                    LocationCode: $td.eq(2).text(),
+                }
+            }).get();
+            $.ajax({
+                url: "/RfidView/Create",
+                async: false,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                type: "POST",
+                data: JSON.stringify(tbl),
+                success: function (data) {
+
+                    if (data == "1") {
+                        var str = "";
+                        $('#tableId').html("");
+
+                        swal({
+                            title: 'تسجيل',
+                            text: "تم تسجيل",
+                            icon: "success",
+                            button: "تم",
+                        });
+
+                    }
+                    else $('#respond').val(data);
+                },
+
+            });
+        }
+</script>

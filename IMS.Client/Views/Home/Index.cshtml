@@ -1,0 +1,108 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@*@if ((string)TempData["DefaultPassword"] == "Failed")
+    {
+        <div class="alert alert-warning">
+            <strong>@TempData["DefaultPasswordMessage"].ToString() </strong>
+        </div>
+    }
+    @if ((string)TempData["LoginSuccessfully"] == "Success")
+    {
+        <div class="alert alert-success">
+            <strong>@TempData["LoginSuccessfullyMessage"].ToString() </strong>
+        </div>
+    }
+    @if ((string)TempData["ChangePassword"] == "Success")
+    {
+        <div class="alert alert-success">
+            <strong>Password Update success </strong>
+        </div>
+    }*@
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col">
+            <h5>الصفحه الرئسيه  </h5>
+
+            <br>
+            <h5>  </h5>
+        </div>
+
+
+    </div>
+</div>
+
+<!-- guide line -->
+<div class="row guids mt-4">
+    <div class="col-lg-3 col-sm-6">
+        <div class="guide-line d-flex justify-content-between align-items-center">
+            <p> عدد الاصناف </p>
+            <p>50</p>
+        </div>
+    </div>
+    @*<div class="col-lg-3 col-sm-6">
+            <div class="guide-line d-flex justify-content-between align-items-center">
+                <p>عدد الروشتات </p>
+                <p>50</p>
+            </div>
+        </div>*@
+    <div class="col-lg-3 col-sm-6">
+        <div class="guide-line d-flex justify-content-between align-items-center">
+            <p>عدد المستخدمين</p>
+            <p>70</p>
+        </div>
+    </div>
+    @*<div class="col-lg-3 col-sm-6">
+            <div class="guide-line d-flex justify-content-between align-items-center">
+                <p>عدد طلبات الخدمة </p>
+                <p>23456</p>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-sm-6">
+            <div class="guide-line d-flex justify-content-between align-items-center">
+                <p>حجز الدكتور   </p>
+                <p>23456</p>
+            </div>
+        </div>*@
+
+    <div class="col-lg-3 col-sm-6">
+        <div class="guide-line d-flex justify-content-between align-items-center">
+            <p> الدعم الفني    </p>
+            <p>23456</p>
+        </div>
+    </div>
+
+</div>
+
+<!-- chart -->
+<div class="row mt-5 chart-block">
+    <div class="col-lg-4">
+        <div class="block-shadow p-3 mb-3">
+            <h5>المصروفات</h5>
+            <canvas id="doughnut-chart"></canvas>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="block-shadow p-3 mb-3">
+            <h5>المبيعات</h5>
+            <canvas id="bar-chart"></canvas>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="block-shadow p-3 mb-3">
+            <h5>الواردات</h5>
+            <canvas id="line-chart"></canvas>
+        </div>
+    </div>
+</div>
+
+<h5> ZkTeco </h5>

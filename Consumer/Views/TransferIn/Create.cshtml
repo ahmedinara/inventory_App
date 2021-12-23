@@ -1,0 +1,291 @@
+﻿
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>تسجيل فاتورة الادخال</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Create">
+
+            <div class="row">
+                <div class="card col-12">
+                    <div class="card-header">
+                        <h1>بيانات العمليه</h1>
+                    </div>
+                    <div class="card-body">
+                        . <div class="row">
+
+                            <div class="form-group col-6">
+                                <label  class="control-label">كود الفاتوره</label>
+                                <input id="invoiceno"  class="form-control" />
+                                <span class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group col-6">
+                                <label  class="control-label">المورد</label>
+                                <select id="suppid" class="form-control">
+                                    <option>
+                                        أختار المورد
+                                    </option>
+                                </select>
+                                <span  class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group col-6">
+                                <label  class="control-label">تاريخ الفاتوره</label>
+                                <input id="TransferDate" type="date" class="form-control" />
+                                <span  class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card col-12">
+                    <div class="card-header">
+                        <h1>الاصناف</h1>
+                    </div>
+                    <div class="card-body">
+
+                        . <div class="row">
+                              <div class="col-12">
+                                  <div class="row">
+                                      <div class="form-group col-6">
+                                          <label for="Code" class="control-label">سريل الصنف</label>
+                                          <input id="Code" class="form-control" />
+                                      </div>
+                                      <div class="form-group col-6">
+                                          <label for="qty" class="control-label">الكميه</label>
+                                          <input id="qty" type="number" class="form-control" />
+                                      </div>
+                                  </div>
+
+                              </div>
+                                  <div class="form-group">
+                                      <input type="button" class="btn btn-primary" onclick="Addrow()" value="أضافه" />
+                                  </div>
+                              </div>
+                        <div class="row">
+                            <div class="col-12">
+
+
+                                <table class="table table-striped table-bordered dt-responsive nowrap" width="100%" id="table">
+                                    <thead style="background-color: #33aa4e; ">
+                                        <tr>
+                                            <th>
+                                                كود الصنف
+                                            </th>
+                                            <th>
+                                                الكميه
+                                            </th>
+                                            <th>
+                                                حذف
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tableId">
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+                <div class="form-group">
+                    <input type="button" class="btn btn-primary" onclick="getlist()" value="تسجيل الفاتوره" />
+                </div>
+</form>
+    </div>
+</div>
+
+<div>
+    
+    <a asp-action="Index" style="font-size:25px" class="btn btn-primary">العودة لقائمة الفواتير</a>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<script>
+    var x = 0;
+    function deleterow(x) {
+        var myobj = document.getElementById(x);
+        myobj.remove();
+    }
+    $(document).ready(function () {
+        $.ajax({
+            url: "http://40.88.5.47:8002/api/Supplier",
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            type: "Get",
+            beforeSend: function (xhr) {
+
+                xhr.setRequestHeader("Authorization", "Bearer " + window.localStorage.getItem("Token"));
+                xhr.setRequestHeader("X-Mobile", "false");
+            },
+            success: function (data) {
+
+                var sel = $("#suppid");
+                sel.empty();
+                sel.append('<option value="' + 0 + '">أختر المورد</option>');
+                for (var i = 0; i < data.length; i++) {
+                    sel.append('<option value="' + data[i].id + '">' + data[i].nameAr + '</option>');
+                }
+
+            }, error: function (data) { swal(' حدث خطا !!! ', 'error'); },
+            //data: JSON.stringify(element),
+            
+        });
+    });
+  
+    function Addrow() {
+        var productCode = $("#Code").val();
+        var qty = $("#qty").val();
+        if (productCode == "" || productCode == null) {
+            swal({
+                title: 'خطاء',
+                text: "أدخل كود الصنف",
+                icon: "error",
+                button: "تم",
+            });
+            return;
+        }
+        if (parseInt(qty) <= 0 || qty == null || qty == '') {
+            swal({
+                title: 'خطاء',
+                text: "أدخل كميه صحيحه",
+                icon: "error",
+                button: "تم",
+            });
+            return;
+
+        }
+        $.ajax({
+            url: "http://40.88.5.47:8002/Product?code=" + productCode,
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            type: "Get",
+            beforeSend: function (xhr) {
+
+                xhr.setRequestHeader("Authorization", "Bearer " + window.localStorage.getItem("Token"));
+            },
+            //data: JSON.stringify(element),
+            success: function (data) {
+
+                x++;
+                if (data == "1") {
+
+                    $('#tableId').append("<tr id=" + x + "> <td>" + productCode + "</td><td>" + qty + "</td><td><a class='fa fa-trash' style='color:red; font-size:x-large; position:center' onclick='deleterow(" + x + ")'></a></td></tr>");
+                    $("#Code").val("");
+                    $("#qty").val("");
+                }
+                else swal({
+                    title: 'خطاء',
+                    text: "كود الصنف غير معرف",
+                    icon: "error",
+                    button: "تم",
+                }); 
+            }, error: function (data) { swal(' حدث خطا !!! ', 'error'); },
+
+        });
+    }
+
+    function getlist() {
+        var tbl = $('#table tr:has(td)').map(function (i, v) {
+            var $td = $('td', this);
+            return {
+                ProductCode: $td.eq(0).text(),
+                qty: parseInt($td.eq(1).text()),
+            }
+        }).get();
+        invoiceno
+        suppid
+        var invoiceno = $("#invoiceno").val();
+        var suppid = $("#suppid").val();
+        var TransferDate = $("#TransferDate").val();
+        var element = {}
+        element.InvoiceNo = invoiceno; element.SupplierId = parseInt(suppid); element.TransferDate = TransferDate; element.TransferInDetails = tbl;
+
+        if (element.TransferDate == null || element.TransferDate == "") {
+            swal({
+                title: 'خطاء',
+                text: "أدخل تاريخ الفاتوره",
+                icon: "error",
+                button: "تم",
+            });
+            return;
+        }
+        if (element.InvoiceNo == null || element.InvoiceNo == "")
+        {
+            swal({
+                title: 'خطاء',
+                text: "أدخل سريل الفاتوره",
+                icon: "error",
+                button: "تم",
+            });
+            return;
+        }
+        if (element.SupplierId == null || element.SupplierId == "" || element.SupplierId == 0) {
+            swal({
+                title: 'خطاء',
+                text: "أدخل المورد",
+                icon: "error",
+                button: "تم",
+            });
+            return;
+        }
+        if (tbl.length == 0)
+        {
+            swal({
+                title: 'خطاء',
+                text: "أكمل البينات الجدول",
+                icon: "error",
+                button: "تم",
+            });
+            return;
+        }
+        $.ajax({
+            url: "http://40.88.5.47:8002/Product/TransferIn",
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            type: "POST",
+            beforeSend: function (xhr) {
+
+                xhr.setRequestHeader("Authorization", "Bearer " + window.localStorage.getItem("Token"));
+            },
+            data: JSON.stringify(element),
+            success: function (data) {
+
+               
+                    var str = "";
+                    $('#tableId').html("");
+                    swal({
+                        title: 'تسجيل',
+                        text: "تم تسجيل",
+                        icon: "success",
+                        button: "تم",
+                    });
+                    window.location.href = "/TransferIn/Create";
+
+                //}
+                //else swal({
+                //    title: 'خطاء',
+                //    text: "أكمل البينات",
+                //    icon: "error",
+                //    button: "تم",
+                //});
+            },
+
+        });
+    }
+
+</script>
+

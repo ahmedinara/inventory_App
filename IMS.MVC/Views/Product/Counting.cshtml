@@ -1,0 +1,89 @@
+﻿@model IEnumerable<IMS.Core.Entities.RfIdScannedProduct>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary">
+                    <h4 class="card-title ">الجرد</h4>
+                    <p class="card-category"> قائمة الجرد</p>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+
+                        <table id="table"  class="table">
+                            <thead  style="color: white; font-size: 28px; background-color: #2E9E3A;">
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.CreatedByNavigation.FristName)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.CreatedOn)
+                                    </th>
+                                    <th>
+                                        اجمالي الأعداد المجروده
+                                    </th>
+                                    <th>تفاصيل</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CreatedByNavigation.FristName)
+                                        </td>
+                                        <td>
+                                            @item.CreatedOn.ToString("hh:mm tt MM-dd-yyyy")
+                                             
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ItemsCount)
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-primary" style="position:center;background-color: black;background-color: black !important;" href="/Product/Details/@item.Id">عرض التفاصيل</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#table').DataTable(
+            {
+                order: false,
+                "language": {
+                    "search": "بحث:",
+                    "info": "مشاهدة _START_ الي _END_ من _TOTAL_ بيان ",
+                    "infoEmpty": "مشاهدة 0 الي 0 من  0 البيانات",
+                    "infoFiltered": "(تمت تصفيته من  _MAX_ اجمالي البيانات)",
+                    "infoPostFix": "",
+                    "lengthMenu": "مشاهدة _MENU_ بيان",
+                    "loadingRecords": "جاري التحميل...",
+                    "processing": "جاري المعالجة ....",
+                    "zeroRecords": "لم يتم العثور على بيانات مطابقة",
+                    "paginate": {
+                        "first": "الاول",
+                        "last": "الاخير",
+                        "next": "التالي",
+                        "previous": "السابق"
+                    }
+                }
+
+            });
+     
+
+    });
+</script>

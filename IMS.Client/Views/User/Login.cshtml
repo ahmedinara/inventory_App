@@ -1,0 +1,96 @@
+﻿@model Core.Models.LoginModel
+
+@{
+    ViewData["Title"] = "Log in";
+    Layout = null;
+
+}
+<!DOCTYPE html>
+<html dir="rtl" class="h-100">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,user-scalable=0" />
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="~/css/bootstrap-rtl.min.css" />
+
+    <!-- DataTable -->
+    <link rel="stylesheet" href="~/css/select.dataTables.min.css" />
+    <link rel="stylesheet" href="~/css/responsive.bootstrap4.min.css" />
+    <link rel="stylesheet" href="~/css/dataTables.bootstrap4.min.css" />
+
+    <link rel="stylesheet" href="~/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/aspect-ratio.css" />
+    <link rel="stylesheet" href="~/css/style.css" />
+    <link rel="stylesheet" href="~/css/responsive.css" />
+    <link rel="stylesheet" href="~/css/rtl.css" />
+    <!-- Favicons -->
+    <link rel="shortcut icon" href="~/imgs/favicon.png" />
+    <link rel="apple-touch-icon" href="~/imgs/favicon.png" />
+    <title> نظام إدارة المخزون </title>
+</head>
+
+<body class="h-100">
+
+    <main class="h-100">
+        <div class="main-page h-100">
+            <!-- Page content -->
+            <div class="page-content p-0 h-100">
+                <div class="login row w-100 h-100 m-0 d-flex justify-content-center">
+                    <div class="col-lg-6 d-flex align-items-center p-0">
+                        <div class="py-large px-4 text-right w-100">
+                            <div class="card-shadow text-center py-4 px-5 mt-2">
+                                <h6 class="text-primary mb-4 mt-3" style="font-weight: bold;font-size: 30px;">تسجيل الدخول</h6>
+                                <form method="post">
+                                    <div asp-validation-summary="All" class="text-danger"></div>
+                                    <div class="form-group">
+                                        <input id="email" placeholder="البريد الالكتروني" asp-for="Email" class="form-control" />
+                                        <span asp-validation-for="Email" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <input id="password" type="password" placeholder="كلمة السر" asp-for="Password" class="form-control" />
+                                    </div>
+                                    <div class="row btns-group mb-3">
+                                        <div class="col-12">
+                                            <button type="submit" style="font-size: 20px;" class="btn btn-primary btn-block">تسجيل الدخول</button>
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="col-lg-6 bg-laptop p-0 d-flex align-items-end justify-content-center">
+                            <div class="px-5">
+                                <p class="copyright d-flex align-items-center">جميع حقوق الملكية لشركة<span class="text-primary">©</span>Console.Solution<img  src="~/imgs/logo.png" width="100px" alt="logo"></p>
+                            </div>
+                        </div>*@
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="~/js/jquery.min.js"></script>
+
+    <!-- DataTable -->
+    <script src="~/js/jquery.dataTables.min.js"></script>
+    <script src="~/js/dataTables.select.min.js"></script>
+    <script src="~/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/js/dataTables.responsive.min.js"></script>
+    <script src="~/js/responsive.bootstrap4.min.js"></script>
+
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+
+    <!-- chart js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="~/js/javascript.js"></script>
+</body>
+
+</html>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

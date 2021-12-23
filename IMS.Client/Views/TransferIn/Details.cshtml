@@ -1,0 +1,120 @@
+﻿@model IMS.Core.Entities.TransferIn
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>التفاصيل</h1>
+
+<div>
+    <h4>عملية الادخال</h4>
+    <hr />
+    <dl class="row">
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InvoiceNo)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InvoiceNo)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TransferDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TransferDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CreatedBy)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CreatedByNavigation.FristName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CreatedOn)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CreatedOn)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ItemsCount)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ItemsCount)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SupplierId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Supplier.NameAr)
+        </dd>
+    </dl>
+    <table class="table table-striped table-bordered dt-responsive nowrap" width="100%" id="table">
+        <thead style="background-color: #33aa4e; ">
+            <tr>
+                <th>
+                    كود الصنف
+                </th>
+                <th>
+                    أسم الصنف
+                </th>
+                <th>
+                    الكميه
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.TransferInDetails)
+            {
+               
+                    <tr style=" font-size: 18px; ">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProductVarientId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProductVarient.Product.TitleAr)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Qty)
+                        </td>
+                      
+                    </tr>
+               
+
+            }
+        </tbody>
+    </table>
+
+</div>
+<div>
+    @*@Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ })*@
+    <a asp-action="Counting" style="font-size:25px" class="btn btn-primary">العودة لقائمة الادخال</a>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#table').DataTable(
+            {
+                paginate: false,
+
+                "language": {
+                    "search": "بحث:",
+                    "info": "مشاهدة _START_ الي _END_ من _TOTAL_ بيان ",
+                    "infoEmpty": "مشاهدة 0 الي 0 من  0 البيانات",
+                    "infoFiltered": "(تمت تصفيته من  _MAX_ اجمالي البيانات)",
+                    "infoPostFix": "",
+                    "lengthMenu": "مشاهدة _MENU_ بيان",
+                    "loadingRecords": "جاري التحميل...",
+                    "processing": "جاري المعالجة ....",
+                    "zeroRecords": "لم يتم العثور على بيانات مطابقة",
+                    "paginate": {
+                        "first": "الاول",
+                        "last": "الاخير",
+                        "next": "التالي",
+                        "previous": "السابق"
+                    }
+                }
+
+            });
+
+
+    });
+</script>

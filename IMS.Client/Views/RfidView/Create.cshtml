@@ -1,0 +1,154 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<h4>إضافه عملية جرد جديده</h4>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <label for="Code" class="control-label">كود الصنف</label>
+                    <input id="Code" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="qty" class="control-label">الكميه</label>
+                    <input id="qty" type="number" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="Location" class="control-label">كود الموقع</label>
+                    <input id="Location" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="button" class="btn btn-primary" onclick="AddTr()" value="أضافه" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+
+                <form asp-action="Create" method="post">
+
+                    <table class="table table-striped table-bordered dt-responsive nowrap" width="100%" id="table">
+                        <thead style="background-color: #33aa4e; ">
+                            <tr>
+                                <th>
+                                    كود الصنف
+                                </th>
+                                <th>
+                                    الكميه
+                                </th>
+
+                                <th>
+                                    كود الموقع
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableId">
+                        </tbody>
+                    </table>
+
+                    <div class="form-group">
+                        <input type="button" class="btn btn-primary" onclick="getlist()" value="تسجيل الجرد" />
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    function AddTr() {
+        debugger;
+        var productCode = $("#Code").val();
+        var qty = $("#qty").val();
+        var locationCode = $("#Location").val();
+        if (productCode == "" || productCode == null)
+        {
+            swal({
+                title: 'خطاء',
+                text: "أدخل كود الصنف",
+                icon: "error",
+                button: "تم",
+            });
+            return;
+
+        }
+        if (locationCode == "" || locationCode == null) {
+            swal({
+                title: 'خطاء',
+                text: "أدخل كود الموقع",
+                icon: "error",
+                button: "تم",
+            });
+            return;
+        }
+        if (parseInt(qty) > 0) {
+            $('#tableId').append('<tr> <td>' + productCode + '</td><td>' + qty + '</td><td>' + locationCode + '</td></tr>');
+            $("#Code").val("");
+            $("#qty").val("");
+            $("#Location").val("");
+        }
+        else
+        {
+            swal({
+                title: 'خطاء',
+                text: "أدخل كميه صحيحه",
+                icon: "error",
+                button: "تم",
+            });
+            return;
+
+        }
+   
+
+    }
+
+    function getlist() {
+        debugger;
+
+        var tbl = $('#table tr:has(td)').map(function (i, v) {
+            var $td = $('td', this);
+            return {
+                ProductCode: $td.eq(0).text(),
+                ScannedStock: parseInt($td.eq(1).text()),
+                LocationCode: $td.eq(2).text(),
+            }
+        }).get();
+        $.ajax({
+            url: "/RfidView/Create",
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            type: "POST",
+            data: JSON.stringify(tbl),
+            success: function (data) {
+
+                if (data == "1") {
+                    var str = "";
+                    $('#tableId').html("");
+                 
+                    swal({
+                        title: 'تسجيل',
+                        text: "تم تسجيل",
+                        icon: "success",
+                        button: "تم",
+                    });
+
+                }
+                else swal(' حدث خطا !!! ', 'error');
+            },
+
+        });
+    }
+
+</script>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

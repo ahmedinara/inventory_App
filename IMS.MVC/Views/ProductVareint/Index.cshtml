@@ -1,0 +1,107 @@
+﻿@model IEnumerable<IMS.Core.Models.ProductVarientWithParentModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary">
+                    <h4 class="card-title "> المنتجات الفرعيه</h4>
+                    <p class="card-category"> قائمة المنتجات الفرعيه</p>
+                    <a asp-action="Create" class="btn btn-primary">اضافة جديد</a>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="table" class="table">
+                            <thead>
+                                <tr>
+
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.TitleAr)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.TitleEn)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.VarientCode)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.StockQty)
+                                    </th>
+
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.CreatedOn)
+                                    </th>
+
+                                    @*<th></th>*@
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.TitleAr)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.TitleEn)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.VarientCode)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.StockQty)
+                                        </td>
+
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CreatedOn)
+                                        </td>
+
+                                        @*<td>
+                                            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                                            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                                            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                                        </td>*@
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#table').DataTable(
+            {
+                order: false,
+                "language": {
+                    "search": "بحث:",
+                    "info": "مشاهدة _START_ الي _END_ من _TOTAL_ بيان ",
+                    "infoEmpty": "مشاهدة 0 الي 0 من  0 البيانات",
+                    "infoFiltered": "(تمت تصفيته من  _MAX_ اجمالي البيانات)",
+                    "infoPostFix": "",
+                    "lengthMenu": "مشاهدة _MENU_ بيان",
+                    "loadingRecords": "جاري التحميل...",
+                    "processing": "جاري المعالجة ....",
+                    "zeroRecords": "لم يتم العثور على بيانات مطابقة",
+                    "paginate": {
+                        "first": "الاول",
+                        "last": "الاخير",
+                        "next": "التالي",
+                        "previous": "السابق"
+                    }
+                }
+
+            });
+
+
+    });
+</script>

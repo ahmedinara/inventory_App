@@ -1,0 +1,118 @@
+﻿@model IEnumerable<IMS.Core.Entities.TransferIn>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary">
+                    <h4 class="card-title ">فواتير الإدخال</h4>
+                    <p class="card-category"> قائمة فواتير الإدخال</p>
+                    <a asp-action="Create" class="btn btn-primary">اضافة جديد</a>
+
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+
+                        <table id="table" class="table">
+                            <thead style="color: white; font-size: 28px; background-color: #2E9E3A;">
+                                <tr>
+
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.InvoiceNo)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.CreatedBy)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.CreatedOn)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ItemsCount)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.TransferDate)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.SupplierId)
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                <tr>
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.InvoiceNo)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CreatedByNavigation.FristName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CreatedOn)
+                                    </td>
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ItemsCount)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TransferDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Supplier.NameAr)
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-primary" style="position:center;background-color: black;background-color: black !important;" href="/TransferIn/Details/@item.Id">عرض التفاصيل</a>
+                                    </td>
+                                    @*<td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>*@
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#table').DataTable(
+            {
+                order: false,
+                "language": {
+                    "search": "بحث:",
+                    "info": "مشاهدة _START_ الي _END_ من _TOTAL_ بيان ",
+                    "infoEmpty": "مشاهدة 0 الي 0 من  0 البيانات",
+                    "infoFiltered": "(تمت تصفيته من  _MAX_ اجمالي البيانات)",
+                    "infoPostFix": "",
+                    "lengthMenu": "مشاهدة _MENU_ بيان",
+                    "loadingRecords": "جاري التحميل...",
+                    "processing": "جاري المعالجة ....",
+                    "zeroRecords": "لم يتم العثور على بيانات مطابقة",
+                    "paginate": {
+                        "first": "الاول",
+                        "last": "الاخير",
+                        "next": "التالي",
+                        "previous": "السابق"
+                    }
+                }
+
+            });
+
+
+    });
+</script>
+</script>
